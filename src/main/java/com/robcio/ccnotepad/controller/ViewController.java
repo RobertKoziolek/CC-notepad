@@ -3,20 +3,22 @@ package com.robcio.ccnotepad.controller;
 import com.robcio.ccnotepad.model.ScheduleInfo;
 import com.robcio.ccnotepad.service.CinemaApiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/movies")
-public class GetMovieInfoForDateController {
+@Controller
+@RequestMapping("/")
+public class ViewController {
 
     @Autowired
     private CinemaApiService cinemaApiService;
 
-    @GetMapping("/today")
-    public String getMovie() {
+    @GetMapping
+    public String getMainView(final Model model) {
         final ScheduleInfo scheduleInfo = cinemaApiService.getForToday();
-        return scheduleInfo.toString();
+        model.addAttribute("movies", scheduleInfo.getFilms());
+        return "mainView";
     }
 }

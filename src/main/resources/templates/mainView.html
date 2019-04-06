@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>IMDb notepad - images</title>
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+    <script crossorigin="anonymous" src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <!--    <nav th:replace="fragment/navbar.html :: navbar (backView='/tiles')"></nav>-->
+    <!--    <div th:replace="fragment/navbar.html :: navbarModals (backView='/tiles')"></div>-->
+    <div class="row">
+        <div class="col-sm-3 bg-light" th:each="movie : ${movies}">
+            <span class="text-center h5" th:text="${movie.name}">Title</span>
+            <span class="float-right font-weight-light" th:text="${movie.releaseYear}">date published</span>
+            <a target="_blank" th:href="${movie.videoLink}">
+                <img class="img-thumbnail" th:alt="${movie.name}" th:title="${movie.length}"
+                     th:src="${movie.posterLink}">
+            </a>
+            <!--            <form th:id="'removeMovieForm' + ${movie.id}" th:action="@{/remove/__${movie.id}__}" th:method="delete">-->
+            <!--                <input type="hidden" name="view" value="/tiles"/>-->
+            <!--                <a th:hidden="${editDisabled}" href="javascript:{}"-->
+            <!--                   th:onclick="'removeMovie(\'' + ${movie.id} + '\');'">-->
+            <!--                    <span class="text-center small">[remove]</span>-->
+            <!--                </a>-->
+            <!--            </form>-->
+        </div>
+    </div>
+</div>
+<script lang="javascript">
+    function removeMovie(id){
+        document.getElementById('removeMovieForm'+id).submit();
+    }
+
+
+
+
+</script>
+</body>
+</html>
