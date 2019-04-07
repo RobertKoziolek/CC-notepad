@@ -11,7 +11,15 @@ public class Log {
         LOGGER.debug(format, arguments);
     }
 
+    public static void debug(final Class clazz, final String format, Object... arguments) {
+        LoggerFactory.getLogger(clazz).debug(format, arguments);
+    }
+
     public static void error(final String format, Object... arguments) {
         LOGGER.error(format, arguments);
+    }
+
+    public static void error(final Class clazz, final String format, Object... arguments) {
+        LoggerFactory.getLogger(clazz).error(format, arguments);
     }
 }
