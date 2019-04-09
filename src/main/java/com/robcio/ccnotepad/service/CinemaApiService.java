@@ -39,24 +39,12 @@ public class CinemaApiService {
                 });
         try {
             final ScheduleInfo scheduleInfo = response.getBody().getBody();
-            fixUrls(scheduleInfo);
             cachedScheduleInfo = scheduleInfo;
             return scheduleInfo;
         } catch (NullPointerException e) {
             Log.error(this.getClass(), "Could not get the schedule info for {}", dateString);
             throw e;
         }
-    }
-
-    private void fixUrls(final ScheduleInfo scheduleInfo) {
-        final String ccLink = "https://www.cinema-city.pl%s";
-        scheduleInfo.getFilms().forEach(film -> {
-            film.setPosterLink(String.format(ccLink, film.getPosterLink()));
-            film.setLink(String.format(ccLink, film.getLink()));
-        });
-        scheduleInfo.getEvents().forEach(event -> {
-            event.setBookingLink(String.format(ccLink, event.getBookingLink()));
-        });
     }
 
     public ScheduleInfo getForToday() {
