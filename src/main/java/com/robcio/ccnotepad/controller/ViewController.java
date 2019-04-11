@@ -1,7 +1,9 @@
 package com.robcio.ccnotepad.controller;
 
+import com.robcio.ccnotepad.enumeration.CollectRange;
 import com.robcio.ccnotepad.model.ScheduleInfo;
 import com.robcio.ccnotepad.service.CinemaApiService;
+import com.robcio.ccnotepad.service.SettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +16,15 @@ public class ViewController {
 
     @Autowired
     private CinemaApiService cinemaApiService;
+    @Autowired
+    private SettingService settingService;
 
     @GetMapping
     public String getMainView(final Model model) {
-        final ScheduleInfo scheduleInfo = cinemaApiService.getForToday();
+        final ScheduleInfo scheduleInfo = cinemaApiService.getSchedule();
         model.addAttribute("movies", scheduleInfo.getFilms());
+        model.addAttribute("rangeTypes", CollectRange.values());
+        model.addAttribute("selectedRange", settingService.getSetting(CollectRange.class));
         return "mainView";
     }
 }

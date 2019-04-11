@@ -13,6 +13,26 @@
 </head>
 <body>
 <div class="container">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">CC notepad!</a>
+        <div class="btn-group float-right" role="group">
+            <button th:text="${selectedRange.label}" type="button" class="btn btn-success dropdown-toggle"
+                    data-toggle="dropdown">
+                Select range
+            </button>
+            <div class="dropdown-menu">
+                <form th:action="@{/setting/range}" th:method="post">
+                    <input type="hidden" name="_method" value="PUT"/>
+                    <th:block th:each="range : ${rangeTypes}">
+                        <button type="submit" class="dropdown-item" name="range"
+                                th:value="${range}" th:text="${range.label}">
+                            range type
+                        </button>
+                    </th:block>
+                </form>
+            </div>
+        </div>
+    </nav>
     <div class="row">
         <div class="col-sm-3 bg-light" th:each="movie : ${movies}">
             <span class="text-center h5" th:text="${movie.name}">Title</span>
@@ -34,6 +54,10 @@
     function showEvents(id){
         document.getElementById('showMovieEvents'+id).submit();
     }
+
+
+
+
 
 
 </script>
