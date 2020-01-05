@@ -1,10 +1,7 @@
 package com.robcio.ccnotepad.service;
 
 import com.robcio.ccnotepad.enumeration.CollectRange;
-import com.robcio.ccnotepad.model.EventInfo;
-import com.robcio.ccnotepad.model.JsonWrapper;
-import com.robcio.ccnotepad.model.MovieInfo;
-import com.robcio.ccnotepad.model.ScheduleInfo;
+import com.robcio.ccnotepad.model.*;
 import com.robcio.ccnotepad.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -54,16 +51,27 @@ public class CinemaApiService {
         }
     }
 
-    public ScheduleInfo getSchedule() {
+    public Set<MovieForView> getScheduleForView() {
+        ScheduleInfo scheduleInfo = null;
         switch (settingService.getSetting(CollectRange.class)) {
             case TODAY:
-                return getForToday();
+                scheduleInfo = getForToday();
             case TOMORROW:
-                return getForTomorrow();
+                scheduleInfo = getForTomorrow();
             case TODAY_AND_TOMORROW:
-                return getForTodayAndTomorrow();
+                scheduleInfo = getForTodayAndTomorrow();
         }
-        throw new IllegalArgumentException("Selected range setting not available");
+        if (scheduleInfo == null) {
+            throw new IllegalArgumentException("Selected range setting not available");
+        }
+        return prepareForView(scheduleInfo);
+    }
+
+    private Set<MovieForView> prepareForView(final ScheduleInfo scheduleInfo) {
+        final Set<MovieInfo> films = scheduleInfo.getFilms();
+        return films.stream().map(f -> {
+            return new MovieForView(f, getEventsFor(f.getId()));
+        }).collect(Collectors.toSet());
     }
 
     private ScheduleInfo getForTodayAndTomorrow() {
