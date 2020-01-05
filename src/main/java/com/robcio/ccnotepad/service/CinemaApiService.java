@@ -56,10 +56,13 @@ public class CinemaApiService {
         switch (settingService.getSetting(CollectRange.class)) {
             case TODAY:
                 scheduleInfo = getForToday();
+                break;
             case TOMORROW:
                 scheduleInfo = getForTomorrow();
+                break;
             case TODAY_AND_TOMORROW:
                 scheduleInfo = getForTodayAndTomorrow();
+                break;
         }
         if (scheduleInfo == null) {
             throw new IllegalArgumentException("Selected range setting not available");

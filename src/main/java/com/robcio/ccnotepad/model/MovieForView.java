@@ -22,5 +22,11 @@ public class MovieForView {
         videoLink = movieInfo.getVideoLink();
         releaseYear = movieInfo.getReleaseYear();
         this.events = events;
+        //TODO needs sorting and grouping based on attributes, might do that in template JS
+        this.events.forEach(eventInfo -> {
+            final String time = eventInfo.getEventDateTime();
+            eventInfo.setEventDateTime(time.substring(11, 16));
+        });
     }
+
 }

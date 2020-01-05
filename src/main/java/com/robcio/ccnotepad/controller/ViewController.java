@@ -9,6 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import static com.robcio.ccnotepad.enumeration.CollectRange.TODAY;
+import static com.robcio.ccnotepad.enumeration.CollectRange.TOMORROW;
+
 @Controller
 @RequestMapping("/")
 public class ViewController {
@@ -21,7 +24,9 @@ public class ViewController {
     @GetMapping
     public String getMainView(final Model model) {
         model.addAttribute("movies", cinemaApiService.getScheduleForView());
-        model.addAttribute("rangeTypes", CollectRange.values());
+//TODO today&tomorrow bugged, see also MovieForView class for event date time format when fixing
+//      model.addAttribute("rangeTypes", CollectRange.values());
+        model.addAttribute("rangeTypes", new CollectRange[]{TODAY, TOMORROW});
         model.addAttribute("selectedRange", settingService.getSetting(CollectRange.class));
         return "mainView";
     }
