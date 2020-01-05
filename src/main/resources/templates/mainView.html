@@ -41,7 +41,8 @@
                 <a href="javascript:{}"
                    th:onclick="'showEvents(\'' + ${movie.id} + '\');'">
                     <img class="img-thumbnail" th:alt="${movie.name}" th:title="${movie.length}"
-                         th:src="${movie.posterLink}">
+                         th:src="${movie.posterLink}"
+                         onerror="this.onerror=null;this.src='https://www.cinema-city.pl/xmedia/img/10103/film.placeholder.poster.jpg';">
                 </a>
             </form>
             <a target="_blank" th:href="${movie.videoLink}">
@@ -54,8 +55,6 @@
     function showEvents(id){
         document.getElementById('showMovieEvents'+id).submit();
     }
-
-
 
 
 
