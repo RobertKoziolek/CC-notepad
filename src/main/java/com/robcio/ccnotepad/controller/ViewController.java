@@ -27,7 +27,7 @@ public class ViewController {
 //TODO today&tomorrow bugged, see also MovieForView class for event date time format when fixing
 //      model.addAttribute("rangeTypes", CollectRange.values());
         model.addAttribute("rangeTypes", new CollectRange[]{TODAY, TOMORROW});
-        model.addAttribute("selectedRange", settingService.getSetting(CollectRange.class));
+        model.addAttribute("selectedRange", settingService.getCollectRange());
         return "mainView";
     }
 }

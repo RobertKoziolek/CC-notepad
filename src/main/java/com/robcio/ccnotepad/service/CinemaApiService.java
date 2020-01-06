@@ -1,6 +1,5 @@
 package com.robcio.ccnotepad.service;
 
-import com.robcio.ccnotepad.enumeration.CollectRange;
 import com.robcio.ccnotepad.factory.ViewMovieFactory;
 import com.robcio.ccnotepad.model.json.EventInfo;
 import com.robcio.ccnotepad.model.json.JsonWrapper;
@@ -41,7 +40,7 @@ public class CinemaApiService {
 
     public Set<ViewMovie> getScheduleForView() {
         ScheduleInfo scheduleInfo = null;
-        switch (settingService.getSetting(CollectRange.class)) {
+        switch (settingService.getCollectRange()) {
             case TODAY:
                 scheduleInfo = getForToday();
                 break;

@@ -1,39 +1,31 @@
 package com.robcio.ccnotepad.service;
 
-import com.robcio.ccnotepad.entity.Setting;
-import com.robcio.ccnotepad.repository.SettingRepository;
+import com.robcio.ccnotepad.beans.Settings;
+import com.robcio.ccnotepad.enumeration.CollectRange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class SettingService {
 
-    private final SettingRepository settingRepository;
+    @Autowired
+    private final Settings settings;
 
     @Autowired
-    public SettingService(final SettingRepository settingRepository) {
-        this.settingRepository = settingRepository;
+    public SettingService(final Settings settings) {
+        this.settings = settings;
     }
 
-    public <T extends Enum<T>> T getSetting(final Class<T> clazz) {
-        final Optional<Setting> settingOptional = settingRepository.findByName(clazz.getSimpleName());
-        if (settingOptional.isPresent()) {
-            final String value = settingOptional.get()
-                    .getValue();
-            return T.valueOf(clazz, value);
-        } else {
-            final T[] enumConstants = clazz.getEnumConstants();
-            final T aDefault = enumConstants[0];
-            setSetting(aDefault);
-            return aDefault;
+    public void setCollectRange(final CollectRange collectRange) {
+        settings.setCollectRange(collectRange);
+    }
+
+    public CollectRange getCollectRange() {
+        CollectRange collectRange = settings.getCollectRange();
+        if (collectRange == null) {
+            collectRange = CollectRange.class.getEnumConstants()[0];
+            setCollectRange(collectRange);
         }
-    }
-
-    public <T extends Enum> void setSetting(final T settingEnum) {
-        final Setting setting = new Setting(settingEnum.getClass()
-                .getSimpleName(), settingEnum.name());
-        settingRepository.save(setting);
+        return collectRange;
     }
 }

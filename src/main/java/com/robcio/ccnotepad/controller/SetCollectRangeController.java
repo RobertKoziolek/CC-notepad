@@ -21,7 +21,7 @@ public class SetCollectRangeController {
 
     @PutMapping("/setting/range")
     public String setWatched(@RequestParam final CollectRange range) {
-        settingService.setSetting(range);
+        settingService.setCollectRange(range);
         return "redirect:/";
     }
 }
