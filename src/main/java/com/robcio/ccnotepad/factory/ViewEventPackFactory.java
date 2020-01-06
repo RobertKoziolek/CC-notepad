@@ -16,7 +16,8 @@ public class ViewEventPackFactory {
 
     public SortedSet<ViewEventPack> create(final Set<EventInfo> events) {
         final SortedSet<ViewMovieEvent> allEvents = sortAndMap(events);
-        final SortedSet<ViewEventPack> viewEventPacks = new TreeSet<>(Comparator.comparing(ViewEventPack::getName));
+        final SortedSet<ViewEventPack> viewEventPacks = new TreeSet<>(Comparator.comparing(ViewEventPack::getName)
+                                                                                .reversed());
         for (PackConfig packConfig : PackConfig.values()) {
             final String[] attributes = packConfig.getAttributes();
             final TreeSet<ViewMovieEvent> packEvents = allEvents.stream()
