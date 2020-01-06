@@ -1,4 +1,4 @@
-package com.robcio.ccnotepad.model;
+package com.robcio.ccnotepad.model.json;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

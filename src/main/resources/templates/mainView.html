@@ -39,7 +39,7 @@
             <span class="float-right font-weight-light" th:text="${movie.releaseYear}">date published</span>
             <form th:id="'showMovieEvents' + ${movie.id}" th:action="@{/events/__${movie.id}__}" th:method="put">
                 <a href="javascript:{}" data-toggle="modal" th:data-target="'#eventsModal' + ${movie.id}">
-                    <img class="img-thumbnail" th:alt="${movie.name}" th:title="${movie.length} + 'min'"
+                    <img class="img-thumbnail" th:alt="${movie.name}" th:title="${movie.length} + ' min'"
                          th:src="${movie.posterLink}"
                          onerror="this.onerror=null;this.src='https://www.cinema-city.pl/xmedia/img/10103/film.placeholder.poster.jpg';">
                 </a>
@@ -58,28 +58,40 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <table class="table">
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Time</th>
-                                    <th scope="col">Attributes</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <th:block th:each="event : ${movie.events}">
-                                    <tr>
-                                        <td>
-                                            <a target="_blank" th:href="${event.bookingLink}">
-                                                <span th:text="${event.eventDateTime}">dateTime</span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <span th:text="${event.attributeIds}">attributes</span>
-                                        </td>
-                                    </tr>
-                                </th:block>
-                                </tbody>
-                            </table>
+                            <ul class="nav nav-pills nav-fill" id="myTab" role="tablist">
+                                <li class="nav-item" th:each="pack, i: ${movie.eventPacks}">
+                                    <a class="nav-link" th:id="'tab'+${pack.name} + ${movie.id}" data-toggle="tab"
+                                       th:href="'#panel'+${pack.name} + ${movie.id}" role="tab"
+                                       th:text="${pack.name}" th:classappend="${i.index == 0} ? 'active' : ''">Pack
+                                        name</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade" th:id="'panel'+${pack.name} + ${movie.id}"
+                                     role="tabpanel" th:each="pack, i: ${movie.eventPacks}"
+                                     th:classappend="${i.index == 0} ? 'show active' : ''">
+                                    <table class="table">
+                                        <tbody>
+                                        <th:block th:each="event : ${pack.events}">
+                                            <tr>
+                                                <td>
+                                                    <a target="_blank" th:href="${event.bookingLink}">
+                                                        <span th:text="${event.eventDateTime}">dateTime</span>
+                                                    </a>
+                                                </td>
+                                                <td th:if="${pack.name} == 'Other'">
+                                                    <span th:text="${event.attributeIds}">attributes</span>
+                                                </td>
+                                            </tr>
+                                        </th:block>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <span class="text-center small" th:text="'(' + ${movie.length} + ' min)'">Duration</span>
                         </div>
                     </div>
                 </div>
@@ -92,6 +104,36 @@
     function showEvents(id){
         document.getElementById('showMovieEvents'+id).submit();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

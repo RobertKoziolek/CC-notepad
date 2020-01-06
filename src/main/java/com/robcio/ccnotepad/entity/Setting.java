@@ -13,6 +13,7 @@ import javax.persistence.Id;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+//TODO no need for DB, remove in favor of simple bean
 public class Setting {
 
     @Id
