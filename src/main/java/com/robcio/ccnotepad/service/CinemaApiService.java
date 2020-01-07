@@ -47,9 +47,6 @@ public class CinemaApiService {
             case TOMORROW:
                 scheduleInfo = getForTomorrow();
                 break;
-            case TODAY_AND_TOMORROW:
-                scheduleInfo = getForTodayAndTomorrow();
-                break;
         }
         if (scheduleInfo == null) {
             throw new IllegalArgumentException("Selected range setting not available");
@@ -70,20 +67,6 @@ public class CinemaApiService {
 
     private boolean filterAnimation(final MovieInfo movieInfo) {
         return !settingService.isFilterOutAnimation() || !movieInfo.getAttributeIds().contains("animation");
-    }
-
-    //TODO bugged, takes only for tomorrow
-    private ScheduleInfo getForTodayAndTomorrow() {
-        final ScheduleInfo forToday = getForToday();
-        final ScheduleInfo forTomorrow = getForTomorrow();
-        final Set<String> todayIds = forToday.getFilms().stream().map(MovieInfo::getId).collect(Collectors.toSet());
-        final Set<MovieInfo> newFilms = forTomorrow.getFilms()
-                                                   .stream()
-                                                   .filter(f -> !todayIds.contains(f.getId()))
-                                                   .collect(Collectors.toSet());
-        forToday.getFilms().addAll(newFilms);
-        forToday.getEvents().addAll(forTomorrow.getEvents());
-        return forToday;
     }
 
     public ScheduleInfo getForToday() {

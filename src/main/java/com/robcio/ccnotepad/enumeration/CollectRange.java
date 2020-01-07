@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public enum CollectRange {
 
-    TODAY("Today"), TOMORROW("Tomorrow"), TODAY_AND_TOMORROW("Today and tomorrow");
+    TODAY("Today"), TOMORROW("Tomorrow");
 
     final private String label;
 }
