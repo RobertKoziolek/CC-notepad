@@ -17,8 +17,14 @@ public class ViewMovieFactory {
         final Integer length = movieInfo.getLength();
         final String posterLink = movieInfo.getPosterLink();
         final String videoLink = movieInfo.getVideoLink();
-        final String releaseYear = movieInfo.getReleaseYear();
+        final Integer availableScreenings = events.size();
 
-        return new ViewMovie(id, name, length, posterLink, videoLink, releaseYear, eventPackFactory.create(events));
+        return new ViewMovie(id,
+                             name,
+                             length,
+                             posterLink,
+                             videoLink,
+                             availableScreenings,
+                             eventPackFactory.create(events));
     }
 }

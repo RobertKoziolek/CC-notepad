@@ -13,7 +13,7 @@ public class ViewMovie {
     private Integer length;
     private String posterLink;
     private String videoLink;
-    private String releaseYear;
+    private Integer availableScreenings;
     private SortedSet<ViewEventPack> eventPacks;
 
 }
