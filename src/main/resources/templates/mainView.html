@@ -26,9 +26,29 @@
                     <th:block th:each="range : ${rangeTypes}">
                         <button type="submit" class="dropdown-item" name="range"
                                 th:value="${range}" th:text="${range.label}">
-                            range type
+                            Range type
                         </button>
                     </th:block>
+                </form>
+            </div>
+        </div>
+        <div class="btn-group float-right" role="group">
+            <button th:text="${filterOutAnimation} ? 'Filter out animation' : 'Do not filter out animation'"
+                    type="button" class="btn btn-primary dropdown-toggle"
+                    data-toggle="dropdown">
+                Select filtering
+            </button>
+            <div class="dropdown-menu">
+                <form th:action="@{/setting/filterOutAnimation}" th:method="post">
+                    <input type="hidden" name="_method" value="PUT"/>
+                    <button type="submit" class="dropdown-item" name="filterOutAnimation"
+                            th:value="true">
+                        Filter out animation
+                    </button>
+                    <button type="submit" class="dropdown-item" name="filterOutAnimation"
+                            th:value="false">
+                        Do not filter out animation
+                    </button>
                 </form>
             </div>
         </div>
@@ -104,6 +124,13 @@
     function showEvents(id){
         document.getElementById('showMovieEvents'+id).submit();
     }
+
+
+
+
+
+
+
 
 
 

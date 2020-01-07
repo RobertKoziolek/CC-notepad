@@ -28,6 +28,7 @@ public class ViewController {
 //      model.addAttribute("rangeTypes", CollectRange.values());
         model.addAttribute("rangeTypes", new CollectRange[]{TODAY, TOMORROW});
         model.addAttribute("selectedRange", settingService.getCollectRange());
+        model.addAttribute("filterOutAnimation", settingService.isFilterOutAnimation());
         return "mainView";
     }
 }

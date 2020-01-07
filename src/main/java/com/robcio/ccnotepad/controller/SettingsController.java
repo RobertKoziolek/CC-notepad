@@ -9,19 +9,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/")
-public class SetCollectRangeController {
+@RequestMapping("/setting")
+public class SettingsController {
 
     private final SettingService settingService;
 
     @Autowired
-    public SetCollectRangeController(final SettingService settingService) {
+    public SettingsController(final SettingService settingService) {
         this.settingService = settingService;
     }
 
-    @PutMapping("/setting/range")
+    @PutMapping("/range")
     public String setWatched(@RequestParam final CollectRange range) {
         settingService.setCollectRange(range);
+        return "redirect:/";
+    }
+
+    @PutMapping("/filterOutAnimation")
+    public String setWatched(@RequestParam final Boolean filterOutAnimation) {
+        settingService.setFilterOutAnimation(filterOutAnimation);
         return "redirect:/";
     }
 }

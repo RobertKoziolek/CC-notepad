@@ -28,4 +28,17 @@ public class SettingService {
         }
         return collectRange;
     }
+
+    public void setFilterOutAnimation(final Boolean filterOutAnimation) {
+        settings.setFilterOutAnimation(filterOutAnimation);
+    }
+
+    public Boolean isFilterOutAnimation() {
+        Boolean filterOutAnimation = settings.getFilterOutAnimation();
+        if (filterOutAnimation == null) {
+            filterOutAnimation = false;
+            setFilterOutAnimation(filterOutAnimation);
+        }
+        return filterOutAnimation;
+    }
 }

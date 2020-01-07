@@ -12,5 +12,6 @@ import org.springframework.stereotype.Component;
 public class Settings {
 
     private CollectRange collectRange;
+    private Boolean filterOutAnimation;
 
 }
