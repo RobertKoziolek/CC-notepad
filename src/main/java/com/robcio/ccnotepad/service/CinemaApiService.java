@@ -6,6 +6,7 @@ import com.robcio.ccnotepad.model.json.JsonWrapper;
 import com.robcio.ccnotepad.model.json.MovieInfo;
 import com.robcio.ccnotepad.model.json.ScheduleInfo;
 import com.robcio.ccnotepad.model.view.ViewMovie;
+import com.robcio.ccnotepad.util.DateUtils;
 import com.robcio.ccnotepad.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -70,17 +70,21 @@ public class CinemaApiService {
     }
 
     private ScheduleInfo getForToday() {
-        return getForDate(new Date());
+        return getForDateWithCache(new Date());
     }
 
     private ScheduleInfo getForTomorrow() {
-        final Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(Calendar.DATE, 1);
-        return getForDate(calendar.getTime());
+        final Date date = DateUtils.addDay(new Date());
+        return getForDateWithCache(date);
     }
 
-    private ScheduleInfo getForDate(final Date date) {
+    private ScheduleInfo getForDateWithCache(final Date date) {
+        final ScheduleInfo scheduleInfo = getForDate(date);
+        cachedScheduleInfo = scheduleInfo;
+        return scheduleInfo;
+    }
+
+    public ScheduleInfo getForDate(final Date date) {
         final String dateString = format.format(date);
         final String url = String.format(urlFormatString, dateString);
         final ResponseEntity<JsonWrapper> response = restTemplate.exchange(
@@ -90,10 +94,8 @@ public class CinemaApiService {
                 new ParameterizedTypeReference<JsonWrapper>() {
                 });
         try {
-            final ScheduleInfo scheduleInfo = response.getBody().getBody();
-            cachedScheduleInfo = scheduleInfo;
-            return scheduleInfo;
-        } catch (NullPointerException e) {
+            return response.getBody().getBody();
+        } catch (final NullPointerException e) {
             Log.error(this.getClass(), "Could not get the schedule info for {}", dateString);
             throw new IllegalStateException("Could not get a response from Cinema City", e);
         }
