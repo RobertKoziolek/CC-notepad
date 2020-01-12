@@ -56,11 +56,11 @@ public class CinemaApiService {
 
     private Set<ViewMovie> prepareForView(final ScheduleInfo scheduleInfo) {
         final ViewMovieFactory viewMovieFactory = new ViewMovieFactory();
-        final Set<MovieInfo> films = scheduleInfo.getFilms()
-                                                 .stream()
-                                                 .filter(this::filterAnimation)
-                                                 .collect(Collectors.toSet());
-        return films.stream().map(f -> {
+        final Set<MovieInfo> movies = scheduleInfo.getFilms()
+                                                  .stream()
+                                                  .filter(this::filterAnimation)
+                                                  .collect(Collectors.toSet());
+        return movies.stream().map(f -> {
             return viewMovieFactory.create(f, getEventsFor(f.getId()));
         }).collect(Collectors.toSet());
     }
@@ -69,7 +69,7 @@ public class CinemaApiService {
         return !settingService.isFilterOutAnimation() || !movieInfo.getAttributeIds().contains("animation");
     }
 
-    public ScheduleInfo getForToday() {
+    private ScheduleInfo getForToday() {
         return getForDate(new Date());
     }
 
