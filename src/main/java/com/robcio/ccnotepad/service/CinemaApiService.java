@@ -1,11 +1,12 @@
 package com.robcio.ccnotepad.service;
 
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.robcio.ccnotepad.configuration.LinkConfiguration;
 import com.robcio.ccnotepad.factory.ViewMovieFactory;
 import com.robcio.ccnotepad.model.json.*;
 import com.robcio.ccnotepad.model.view.ViewMovie;
 import com.robcio.ccnotepad.util.DateUtils;
-import com.robcio.ccnotepad.util.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -34,9 +35,9 @@ public class CinemaApiService {
 
     public Set<EventInfo> getEventsFor(final String id) {
         return cachedScheduleInfo.getEvents()
-                .stream()
-                .filter(e -> id.equals(e.getFilmId()))
-                .collect(Collectors.toSet());
+                                 .stream()
+                                 .filter(e -> id.equals(e.getFilmId()))
+                                 .collect(Collectors.toSet());
     }
 
     public Set<ViewMovie> getScheduleForView() {
@@ -58,9 +59,9 @@ public class CinemaApiService {
     private Set<ViewMovie> prepareForView(final ScheduleInfo scheduleInfo) {
         final ViewMovieFactory viewMovieFactory = new ViewMovieFactory();
         final Set<MovieInfo> movies = scheduleInfo.getFilms()
-                .stream()
-                .filter(this::filterAnimation)
-                .collect(Collectors.toSet());
+                                                  .stream()
+                                                  .filter(this::filterAnimation)
+                                                  .collect(Collectors.toSet());
         return movies.stream().map(f -> {
             return viewMovieFactory.create(f, getEventsFor(f.getId()));
         }).collect(Collectors.toSet());
@@ -104,7 +105,17 @@ public class CinemaApiService {
                 new ParameterizedTypeReference<JsonWrapper<T>>() {
                 });
         try {
-            return response.getBody().getBody();
+            final ObjectMapper objectMapper = new ObjectMapper();
+
+
+            final JsonWrapper<T> body = response.getBody();
+            objectMapper.convertValue(body.getBody(), T);
+            //TODO https://stackoverflow.com/questions/6846244/jackson-and-generic-type-reference
+            JavaType type = objectMapper.getTypeFactory().
+//                    constructCollectionType(List.class, Foo.class)
+
+
+            return body.getBody();
         } catch (final NullPointerException e) {
             throw new IllegalStateException("Could not get a response from Cinema City", e);
         }
