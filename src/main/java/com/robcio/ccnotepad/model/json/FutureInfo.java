@@ -5,12 +5,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Set;
+
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-public class JsonWrapper <T>{
+public class FutureInfo {
 
-    private T body;
+    private Set<FuturePoster> posters;
 
 }

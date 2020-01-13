@@ -1,10 +1,8 @@
 package com.robcio.ccnotepad.service;
 
+import com.robcio.ccnotepad.configuration.LinkConfiguration;
 import com.robcio.ccnotepad.factory.ViewMovieFactory;
-import com.robcio.ccnotepad.model.json.EventInfo;
-import com.robcio.ccnotepad.model.json.JsonWrapper;
-import com.robcio.ccnotepad.model.json.MovieInfo;
-import com.robcio.ccnotepad.model.json.ScheduleInfo;
+import com.robcio.ccnotepad.model.json.*;
 import com.robcio.ccnotepad.model.view.ViewMovie;
 import com.robcio.ccnotepad.util.DateUtils;
 import com.robcio.ccnotepad.util.Log;
@@ -22,20 +20,23 @@ import java.util.stream.Collectors;
 
 @Service
 public class CinemaApiService {
-    private final String urlFormatString = "https://www.cinema-city.pl/pl/data-api-service/v1/quickbook/10103/film-events/in-cinema/1087/at-date/%s?attr=&lang=pl_PL";
+
     final private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private SettingService settingService;
+    @Autowired
+    private LinkConfiguration linkConfiguration;
+
     private ScheduleInfo cachedScheduleInfo;
 
     public Set<EventInfo> getEventsFor(final String id) {
         return cachedScheduleInfo.getEvents()
-                                 .stream()
-                                 .filter(e -> id.equals(e.getFilmId()))
-                                 .collect(Collectors.toSet());
+                .stream()
+                .filter(e -> id.equals(e.getFilmId()))
+                .collect(Collectors.toSet());
     }
 
     public Set<ViewMovie> getScheduleForView() {
@@ -57,9 +58,9 @@ public class CinemaApiService {
     private Set<ViewMovie> prepareForView(final ScheduleInfo scheduleInfo) {
         final ViewMovieFactory viewMovieFactory = new ViewMovieFactory();
         final Set<MovieInfo> movies = scheduleInfo.getFilms()
-                                                  .stream()
-                                                  .filter(this::filterAnimation)
-                                                  .collect(Collectors.toSet());
+                .stream()
+                .filter(this::filterAnimation)
+                .collect(Collectors.toSet());
         return movies.stream().map(f -> {
             return viewMovieFactory.create(f, getEventsFor(f.getId()));
         }).collect(Collectors.toSet());
@@ -86,18 +87,30 @@ public class CinemaApiService {
 
     public ScheduleInfo getForDate(final Date date) {
         final String dateString = format.format(date);
-        final String url = String.format(urlFormatString, dateString);
-        final ResponseEntity<JsonWrapper> response = restTemplate.exchange(
+        final String url = String.format(linkConfiguration.getDateLink(), dateString);
+        return callRest(url);
+    }
+
+    public FutureInfo getFutureMovies() {
+        final String url = linkConfiguration.getFutureLink();
+        return callRest(url);
+    }
+
+    private <T> T callRest(final String url) {
+        final ResponseEntity<JsonWrapper<T>> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<JsonWrapper>() {
+                new ParameterizedTypeReference<JsonWrapper<T>>() {
                 });
         try {
             return response.getBody().getBody();
         } catch (final NullPointerException e) {
-            Log.error(this.getClass(), "Could not get the schedule info for {}", dateString);
             throw new IllegalStateException("Could not get a response from Cinema City", e);
         }
+    }
+
+    public Set<ViewMovie> getFutureView() {
+        return null;
     }
 }

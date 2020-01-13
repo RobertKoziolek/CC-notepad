@@ -9,8 +9,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class JsonWrapper <T>{
+public class FuturePoster {
 
-    private T body;
-
+    private String featureTitle;
+    private String posterSrc;
+    private String dateStarted;
 }
