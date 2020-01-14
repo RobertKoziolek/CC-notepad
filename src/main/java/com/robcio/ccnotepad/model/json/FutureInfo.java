@@ -11,7 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-public class FutureInfo {
+public class FutureInfo implements BodyInfo{
 
     private Set<FuturePoster> posters;
 

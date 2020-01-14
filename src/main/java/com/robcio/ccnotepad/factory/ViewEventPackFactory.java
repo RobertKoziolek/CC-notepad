@@ -1,7 +1,7 @@
 package com.robcio.ccnotepad.factory;
 
 import com.robcio.ccnotepad.enumeration.PackConfig;
-import com.robcio.ccnotepad.model.json.EventInfo;
+import com.robcio.ccnotepad.model.json.Event;
 import com.robcio.ccnotepad.model.view.ViewEventPack;
 import com.robcio.ccnotepad.model.view.ViewMovieEvent;
 
@@ -14,7 +14,7 @@ public class ViewEventPackFactory {
     final private static Supplier<TreeSet<ViewMovieEvent>> supplier = () -> new TreeSet<>(Comparator.comparing(
             ViewMovieEvent::getEventDateTime));
 
-    public SortedSet<ViewEventPack> create(final Set<EventInfo> events) {
+    public SortedSet<ViewEventPack> create(final Set<Event> events) {
         final SortedSet<ViewMovieEvent> allEvents = sortAndMap(events);
         final SortedSet<ViewEventPack> viewEventPacks = new TreeSet<>(Comparator.comparing(ViewEventPack::getName)
                                                                                 .reversed());
@@ -42,14 +42,14 @@ public class ViewEventPackFactory {
         return viewEventPacks;
     }
 
-    private SortedSet<ViewMovieEvent> sortAndMap(final Set<EventInfo> events) {
-        return events.stream().peek(eventInfo -> {
-            final String time = eventInfo.getEventDateTime();
-            eventInfo.setEventDateTime(time.substring(11, 16));
-        }).map(eventInfo -> {
-            return new ViewMovieEvent(eventInfo.getEventDateTime(),
-                                      eventInfo.getBookingLink(),
-                                      eventInfo.getAttributeIds());
+    private SortedSet<ViewMovieEvent> sortAndMap(final Set<Event> events) {
+        return events.stream().peek(event -> {
+            final String time = event.getEventDateTime();
+            event.setEventDateTime(time.substring(11, 16));
+        }).map(event -> {
+            return new ViewMovieEvent(event.getEventDateTime(),
+                                      event.getBookingLink(),
+                                      event.getAttributeIds());
         }).collect(Collectors.toCollection(supplier));
     }
 }

@@ -11,9 +11,9 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-public class ScheduleInfo {
+public class ScheduleInfo implements BodyInfo {
 
-    private Set<MovieInfo> films;
-    private Set<EventInfo> events;
+    private Set<Movie> films;
+    private Set<Event> events;
 
 }

@@ -1,7 +1,7 @@
 package com.robcio.ccnotepad.factory;
 
-import com.robcio.ccnotepad.model.json.EventInfo;
-import com.robcio.ccnotepad.model.json.MovieInfo;
+import com.robcio.ccnotepad.model.json.Event;
+import com.robcio.ccnotepad.model.json.Movie;
 import com.robcio.ccnotepad.model.view.ViewMovie;
 
 import java.util.Set;
@@ -10,13 +10,13 @@ public class ViewMovieFactory {
 
     private ViewEventPackFactory eventPackFactory = new ViewEventPackFactory();
 
-    public ViewMovie create(final MovieInfo movieInfo, final Set<EventInfo> events) {
+    public ViewMovie create(final Movie movie, final Set<Event> events) {
 
-        final String id = movieInfo.getId();
-        final String name = movieInfo.getName();
-        final Integer length = movieInfo.getLength();
-        final String posterLink = movieInfo.getPosterLink();
-        final String videoLink = movieInfo.getVideoLink();
+        final String id = movie.getId();
+        final String name = movie.getName();
+        final Integer length = movie.getLength();
+        final String posterLink = movie.getPosterLink();
+        final String videoLink = movie.getVideoLink();
         final Integer availableScreenings = events.size();
 
         return new ViewMovie(id,

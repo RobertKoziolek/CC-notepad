@@ -11,14 +11,16 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-public class EventInfo {
+public class Movie {
 
     private String id;
-    private String filmId;
-    private String cinemaId;
-    private String businessDay;
-    private String eventDateTime;
+    private String name;
+    private Integer length;
+    private String posterLink;
+    private String videoLink;
+    private String link;
+    private Integer weight;
+    private String releaseYear;
     private Set<String> attributeIds;
-    private String bookingLink;
-    private Boolean soldOut;
+
 }
