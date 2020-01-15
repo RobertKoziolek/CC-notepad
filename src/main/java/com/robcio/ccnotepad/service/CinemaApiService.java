@@ -1,7 +1,9 @@
 package com.robcio.ccnotepad.service;
 
 import com.robcio.ccnotepad.connector.CinemaCityConnector;
-import com.robcio.ccnotepad.model.json.*;
+import com.robcio.ccnotepad.model.json.FutureInfo;
+import com.robcio.ccnotepad.model.json.FuturePoster;
+import com.robcio.ccnotepad.model.json.ScheduleInfo;
 import com.robcio.ccnotepad.model.view.ViewMovie;
 import com.robcio.ccnotepad.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ public class CinemaApiService {
 
     public Set<ViewMovie> getScheduleForView() {
         ScheduleInfo scheduleInfo = null;
+        //TODO change for some date picker with only available dates
         switch (settingService.getCollectRange()) {
             case TODAY:
                 scheduleInfo = cinemaCityConnector.getFor(new Date());
@@ -34,6 +37,7 @@ public class CinemaApiService {
         if (scheduleInfo == null) {
             throw new IllegalArgumentException("Selected range setting not available");
         }
+        //TODO perhaps should reduce model classes number as #FuturePoster in favor of #Movie/ViewMovie approach
         return viewPreparationService.prepareForView(scheduleInfo);
     }
 

@@ -35,11 +35,12 @@ public class CinemaCityConnector {
 
     public FutureInfo getFuture() {
         final String url = linkConfiguration.getFutureLink();
-        return  callRest(url, new ParameterizedTypeReference<JsonWrapper<FutureInfo>>() {
+        return callRest(url, new ParameterizedTypeReference<JsonWrapper<FutureInfo>>() {
         });
     }
 
-    private <T extends BodyInfo> T callRest(final String url, ParameterizedTypeReference<JsonWrapper<T>> parameterizedTypeReference) {
+    private <T extends BodyInfo> T callRest(final String url,
+                                            final ParameterizedTypeReference<JsonWrapper<T>> parameterizedTypeReference) {
         final ResponseEntity<JsonWrapper<T>> response = restTemplate.exchange(url,
                                                                               HttpMethod.GET,
                                                                               null,

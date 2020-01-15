@@ -13,87 +13,29 @@
 </head>
 <body>
 <div class="container">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+        <a th:replace="navigationModalFragment.html :: navigationButton"></a>
+    </nav>
     <div class="row">
         <div class="col-sm-3 bg-light" th:each="movie : ${movies}">
             <span class="text-center h5" th:text="${movie.name}">Title</span>
-            <a th:href="${movie.link}">
+            <a th:href="${movie.videoLink}" target="_blank">
                 <img class="img-thumbnail" th:alt="${movie.name}" th:src="${movie.posterLink}"
                      onerror="this.onerror=null;this.src='https://www.cinema-city.pl/xmedia/img/10103/film.placeholder.poster.jpg';">
             </a>
-            <a target="_blank" th:href="${movie.videoLink}">
-                <span class="text-center small">[trailer]</span>
+            <a target="_blank" th:href="${movie.link}">
+                <span class="text-center small">[details]</span>
             </a>
             <span class="text-center small"
                   th:text="${movie.releaseDate}"></span>
         </div>
     </div>
 </div>
+<div th:replace="navigationModalFragment.html :: navigationModal(current='future')"></div>
 <script lang="javascript">
     function showEvents(id){
         document.getElementById('showMovieEvents'+id).submit();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<a th:fragment="navigationButton" data-toggle="modal" data-target="#navigationModal" class="navbar-brand">CC
+    notepad!</a>
+
+<div th:fragment="navigationModal (current)" class="modal fade" id="navigationModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateModalLabel">CC notepad navigation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body center">
+                <nav class="nav flex-column nav-pills nav-justified">
+                    <a class="nav-item nav-link" th:href="@{/}"
+                       th:classappend="${current == ('main')} ? 'active' : ''">Schedule view</a>
+                    <a class="nav-item nav-link" th:href="@{/future}"
+                       th:classappend="${current == ('future')} ? 'active' : ''">Comming movies</a>
+                </nav>
+            </div>
+            <!--            <div class="modal-footer">-->
+            <!--            </div>-->
+        </div>
+    </div>
+</div>
+</html>

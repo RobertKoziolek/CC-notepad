@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="container">
-    <a th:href="@{/table}"><h1>Error page!</h1></a>
+    <a th:replace="navigationModalFragment.html :: navigationButton"></a>
     <div class="alert alert-danger" role="alert">
         <table class="table">
             <tr>
@@ -51,5 +51,6 @@
         </div>
     </div>
 </div>
+<div th:replace="navigationModalFragment.html :: navigationModal(current='error')"></div>
 </body>
 </html>

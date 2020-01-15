@@ -18,9 +18,9 @@ class ViewPreparationService {
     Set<ViewMovie> prepareForView(final ScheduleInfo scheduleInfo) {
         final ViewMovieFactory viewMovieFactory = new ViewMovieFactory();
         final Set<Movie> movies = scheduleInfo.getFilms()
-                .stream()
-                .filter(this::filterAnimation)
-                .collect(Collectors.toSet());
+                                              .stream()
+                                              .filter(this::filterAnimation)
+                                              .collect(Collectors.toSet());
         return movies.stream().map(f -> {
             return viewMovieFactory.create(f, getEventsFor(scheduleInfo, f.getId()));
         }).collect(Collectors.toSet());
@@ -32,9 +32,9 @@ class ViewPreparationService {
 
     private Set<Event> getEventsFor(final ScheduleInfo scheduleInfo, final String id) {
         return scheduleInfo.getEvents()
-                .stream()
-                .filter(e -> id.equals(e.getFilmId()))
-                .collect(Collectors.toSet());
+                           .stream()
+                           .filter(e -> id.equals(e.getFilmId()))
+                           .collect(Collectors.toSet());
     }
 
     Set<FuturePoster> prepareForView(final FutureInfo futureInfo) {
