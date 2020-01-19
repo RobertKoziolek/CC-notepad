@@ -16,6 +16,9 @@
     <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
         <a th:replace="navigationModalFragment.html :: navigationButton"></a>
     </nav>
+    <div class="alert alert-danger" role="alert" th:if="${#lists.size(movies) == 0}">
+        No future movies
+    </div>
     <div class="row">
         <div class="col-sm-3 bg-light" th:each="movie : ${movies}">
             <span class="text-center h5" th:text="${movie.name}">Title</span>
@@ -36,6 +39,7 @@
     function showEvents(id){
         document.getElementById('showMovieEvents'+id).submit();
     }
+
 
 </script>
 </body>

@@ -1,10 +1,8 @@
 package com.robcio.ccnotepad.connector;
 
 import com.robcio.ccnotepad.configuration.LinkConfiguration;
-import com.robcio.ccnotepad.model.json.BodyInfo;
-import com.robcio.ccnotepad.model.json.FutureInfo;
-import com.robcio.ccnotepad.model.json.JsonWrapper;
-import com.robcio.ccnotepad.model.json.ScheduleInfo;
+import com.robcio.ccnotepad.model.json.*;
+import com.robcio.ccnotepad.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -12,22 +10,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component
 public class CinemaCityConnector {
-
-    final private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private LinkConfiguration linkConfiguration;
 
-
     public ScheduleInfo getFor(final Date date) {
-        final String dateString = format.format(date);
+        final String dateString = DateUtils.format(date);
         final String url = String.format(linkConfiguration.getDateLink(), dateString);
         return callRest(url, new ParameterizedTypeReference<JsonWrapper<ScheduleInfo>>() {
         });
@@ -36,6 +30,13 @@ public class CinemaCityConnector {
     public FutureInfo getFuture() {
         final String url = linkConfiguration.getFutureLink();
         return callRest(url, new ParameterizedTypeReference<JsonWrapper<FutureInfo>>() {
+        });
+    }
+
+    public DaysInfo getDays() {
+        final String dateString = DateUtils.format(DateUtils.addYear(new Date()));
+        final String url = String.format(linkConfiguration.getDatesLink(), dateString);
+        return callRest(url, new ParameterizedTypeReference<JsonWrapper<DaysInfo>>() {
         });
     }
 

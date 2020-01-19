@@ -16,24 +16,7 @@
     <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
         <a th:replace="navigationModalFragment.html :: navigationButton"></a>
         <div class="btn-group float-right" role="group">
-            <button th:text="${selectedRange.label}" type="button" class="btn btn-success dropdown-toggle"
-                    data-toggle="dropdown">
-                Select range
-            </button>
-            <div class="dropdown-menu">
-                <form th:action="@{/setting/range}" th:method="post">
-                    <input type="hidden" name="_method" value="PUT"/>
-                    <th:block th:each="range : ${rangeTypes}">
-                        <button type="submit" class="dropdown-item" name="range"
-                                th:value="${range}" th:text="${range.label}">
-                            Range type
-                        </button>
-                    </th:block>
-                </form>
-            </div>
-        </div>
-        <div class="btn-group float-right" role="group">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                 Filters
             </button>
             <div class="dropdown-menu">
@@ -44,12 +27,40 @@
                             th:text="${filterEntry.key.label}"
                             th:classappend="${filterEntry.value} ? 'text-success' : 'text-danger'"
                             th:value=" ${!filterEntry.value}">
-                        Filter out animation
+                        Filter
                     </button>
                 </form>
             </div>
         </div>
+        <ul class="nav nav-pills nav-fill">
+            <li class="nav-item" th:each="date, i : ${dates}">
+                <form class="form-inline" th:action="@{/setting/date}" th:method="post" th:id="'dateForm' + ${i.index}">
+                    <input type="hidden" name="_method" value="PUT"/>
+                    <input type="hidden" name="dateString" th:value=" ${date}">
+                    <a class="nav-link" href="javascript:{}"
+                       th:onclick="'document.getElementById(\'dateForm' + ${i.index} + '\').submit();'"
+                       th:classappend="${#dates.format(selectedDate, 'dd-MM')} == ${#dates.format(date, 'dd-MM')} ? 'active' : ''"
+                       th:text="${#dates.format(date, 'dd-MM E')}">
+                        dd-MM
+                    </a>
+                </form>
+            </li>
+            <!--            //TODO HIDE excess into a dropdown -->
+            <!--            <li class="nav-item dropdown">-->
+            <!--                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">Dropdown</a>-->
+            <!--                <div class="dropdown-menu">-->
+            <!--                    <a class="dropdown-item" href="#">Action</a>-->
+            <!--                    <a class="dropdown-item" href="#">Another action</a>-->
+            <!--                    <a class="dropdown-item" href="#">Something else here</a>-->
+            <!--                    <div class="dropdown-divider"></div>-->
+            <!--                    <a class="dropdown-item" href="#">Separated link</a>-->
+            <!--                </div>-->
+            <!--            </li>-->
+        </ul>
     </nav>
+    <div class="alert alert-danger" role="alert" th:if="${#lists.size(movies) == 0}">
+        No screenings for selected date and filters
+    </div>
     <div class="row">
         <div class="col-sm-3 bg-light" th:each="movie : ${movies}">
             <span class="text-center h5" th:text="${movie.name}">Title</span>
@@ -113,29 +124,5 @@
 </div>
 
 <div th:replace="navigationModalFragment.html :: navigationModal(current='main')"></div>
-<script lang="javascript">
-    function showEvents(id){
-        document.getElementById('showMovieEvents'+id).submit();
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</script>
 </body>
 </html>

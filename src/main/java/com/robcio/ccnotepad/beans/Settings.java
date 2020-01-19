@@ -1,13 +1,14 @@
 package com.robcio.ccnotepad.beans;
 
-import com.robcio.ccnotepad.enumeration.CollectRange;
 import com.robcio.ccnotepad.enumeration.Filter;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.Map;
+import java.util.TreeMap;
 
 
 @Component
@@ -15,14 +16,15 @@ import java.util.Map;
 @Setter
 public class Settings {
 
-    private CollectRange collectRange;
+    private Date selectedDate;
     private Map<Filter, Boolean> filters;
 
     {
-        filters = new HashMap<>();
+        filters = new TreeMap<>(Comparator.comparing(Filter::getLabel));
         for (final Filter filter : Filter.values()) {
             filters.put(filter, Boolean.TRUE);
         }
+        selectedDate = new Date();
     }
 
 }

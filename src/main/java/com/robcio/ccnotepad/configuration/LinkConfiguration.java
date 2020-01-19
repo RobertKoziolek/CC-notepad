@@ -15,6 +15,7 @@ public class LinkConfiguration {
 
     private String futureLink;
     private String dateLink;
+    private String datesLink;
 
 
 }

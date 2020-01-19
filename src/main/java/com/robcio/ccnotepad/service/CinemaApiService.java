@@ -5,12 +5,13 @@ import com.robcio.ccnotepad.model.json.FutureInfo;
 import com.robcio.ccnotepad.model.json.FuturePoster;
 import com.robcio.ccnotepad.model.json.ScheduleInfo;
 import com.robcio.ccnotepad.model.view.ViewMovie;
-import com.robcio.ccnotepad.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Service
 public class CinemaApiService {
@@ -20,30 +21,22 @@ public class CinemaApiService {
     @Autowired
     private ViewPreparationService viewPreparationService;
     @Autowired
-    private CinemaCityConnector cinemaCityConnector;
+    private CinemaCityConnector connector;
 
     public Set<ViewMovie> getScheduleForView() {
-        ScheduleInfo scheduleInfo = null;
-        //TODO change for some date picker with only available dates
-        switch (settingService.getCollectRange()) {
-            case TODAY:
-                scheduleInfo = cinemaCityConnector.getFor(new Date());
-                break;
-            case TOMORROW:
-                final Date date = DateUtils.addDay(new Date());
-                scheduleInfo = cinemaCityConnector.getFor(date);
-                break;
-        }
-        if (scheduleInfo == null) {
-            throw new IllegalArgumentException("Selected range setting not available");
-        }
+        final ScheduleInfo scheduleInfo = connector.getFor(settingService.getSelectedDate());
         //TODO perhaps should reduce model classes number as #FuturePoster in favor of #Movie/ViewMovie approach
         return viewPreparationService.prepareForView(scheduleInfo);
     }
 
     public Set<FuturePoster> getFutureMoviesForView() {
-        final FutureInfo futureInfo = cinemaCityConnector.getFuture();
+        final FutureInfo futureInfo = connector.getFuture();
         return viewPreparationService.prepareForView(futureInfo);
     }
 
+    public Set<Date> getDates() {
+        final TreeSet<Date> set = new TreeSet<>(Comparator.comparingLong(Date::getTime));
+        set.addAll(connector.getDays().getDates());
+        return set;
+    }
 }

@@ -1,6 +1,5 @@
 package com.robcio.ccnotepad.controller;
 
-import com.robcio.ccnotepad.enumeration.CollectRange;
 import com.robcio.ccnotepad.service.CinemaApiService;
 import com.robcio.ccnotepad.service.SettingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +20,9 @@ public class PosterViewController {
     @GetMapping
     public String getMainView(final Model model) {
         model.addAttribute("movies", cinemaApiService.getScheduleForView());
-        model.addAttribute("rangeTypes", CollectRange.values());
-        model.addAttribute("selectedRange", settingService.getCollectRange());
         model.addAttribute("filters", settingService.getFilters());
+        model.addAttribute("dates", cinemaApiService.getDates());
+        model.addAttribute("selectedDate", settingService.getSelectedDate());
         return "mainView";
     }
 }

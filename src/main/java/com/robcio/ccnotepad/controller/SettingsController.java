@@ -1,13 +1,17 @@
 package com.robcio.ccnotepad.controller;
 
-import com.robcio.ccnotepad.enumeration.CollectRange;
 import com.robcio.ccnotepad.enumeration.Filter;
 import com.robcio.ccnotepad.service.SettingService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/setting")
@@ -20,9 +24,12 @@ public class SettingsController {
         this.settingService = settingService;
     }
 
-    @PutMapping("/range")
-    public String setCollectRange(@RequestParam final CollectRange range) {
-        settingService.setCollectRange(range);
+    @SneakyThrows
+    @PutMapping("/date")
+    public String setDate(@RequestParam final String dateString) {
+        final DateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+        final Date date = df.parse(dateString);
+        settingService.setSelectedDate(date);
         return "redirect:/";
     }
 
@@ -31,4 +38,5 @@ public class SettingsController {
         settingService.setFilter(filter, value);
         return "redirect:/";
     }
+
 }
