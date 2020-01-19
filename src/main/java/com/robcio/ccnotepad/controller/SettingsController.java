@@ -1,6 +1,7 @@
 package com.robcio.ccnotepad.controller;
 
 import com.robcio.ccnotepad.enumeration.CollectRange;
+import com.robcio.ccnotepad.enumeration.Filter;
 import com.robcio.ccnotepad.service.SettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,14 +21,14 @@ public class SettingsController {
     }
 
     @PutMapping("/range")
-    public String setWatched(@RequestParam final CollectRange range) {
+    public String setCollectRange(@RequestParam final CollectRange range) {
         settingService.setCollectRange(range);
         return "redirect:/";
     }
 
-    @PutMapping("/filterOutAnimation")
-    public String setWatched(@RequestParam final Boolean filterOutAnimation) {
-        settingService.setFilterOutAnimation(filterOutAnimation);
+    @PutMapping("/filter")
+    public String setFilter(@RequestParam final Filter filter, @RequestParam final Boolean value) {
+        settingService.setFilter(filter, value);
         return "redirect:/";
     }
 }

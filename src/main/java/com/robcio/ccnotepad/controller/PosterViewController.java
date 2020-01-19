@@ -23,7 +23,7 @@ public class PosterViewController {
         model.addAttribute("movies", cinemaApiService.getScheduleForView());
         model.addAttribute("rangeTypes", CollectRange.values());
         model.addAttribute("selectedRange", settingService.getCollectRange());
-        model.addAttribute("filterOutAnimation", settingService.isFilterOutAnimation());
+        model.addAttribute("filters", settingService.getFilters());
         return "mainView";
     }
 }

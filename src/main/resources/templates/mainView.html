@@ -33,21 +33,18 @@
             </div>
         </div>
         <div class="btn-group float-right" role="group">
-            <button th:text="${filterOutAnimation} ? 'Filter out animation' : 'Do not filter out animation'"
-                    type="button" class="btn btn-primary dropdown-toggle"
-                    data-toggle="dropdown">
-                Select filtering
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Filters
             </button>
             <div class="dropdown-menu">
-                <form th:action="@{/setting/filterOutAnimation}" th:method="post">
+                <form th:action="@{/setting/filter}" th:method="post" th:each="filterEntry : ${filters}">
                     <input type="hidden" name="_method" value="PUT"/>
-                    <button type="submit" class="dropdown-item" name="filterOutAnimation"
-                            th:value="true">
+                    <input type="hidden" name="filter" th:value="${filterEntry.key}"/>
+                    <button type="submit" class="dropdown-item" name="value"
+                            th:text="${filterEntry.key.label}"
+                            th:classappend="${filterEntry.value} ? 'text-success' : 'text-danger'"
+                            th:value=" ${!filterEntry.value}">
                         Filter out animation
-                    </button>
-                    <button type="submit" class="dropdown-item" name="filterOutAnimation"
-                            th:value="false">
-                        Do not filter out animation
                     </button>
                 </form>
             </div>
@@ -120,6 +117,20 @@
     function showEvents(id){
         document.getElementById('showMovieEvents'+id).submit();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -2,8 +2,11 @@ package com.robcio.ccnotepad.service;
 
 import com.robcio.ccnotepad.beans.Settings;
 import com.robcio.ccnotepad.enumeration.CollectRange;
+import com.robcio.ccnotepad.enumeration.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class SettingService {
@@ -29,16 +32,11 @@ public class SettingService {
         return collectRange;
     }
 
-    public void setFilterOutAnimation(final Boolean filterOutAnimation) {
-        settings.setFilterOutAnimation(filterOutAnimation);
+    public void setFilter(final Filter filter, final boolean value) {
+        settings.getFilters().put(filter, value);
     }
 
-    public Boolean isFilterOutAnimation() {
-        Boolean filterOutAnimation = settings.getFilterOutAnimation();
-        if (filterOutAnimation == null) {
-            filterOutAnimation = false;
-            setFilterOutAnimation(filterOutAnimation);
-        }
-        return filterOutAnimation;
+    public Map<Filter, Boolean> getFilters() {
+        return settings.getFilters();
     }
 }
