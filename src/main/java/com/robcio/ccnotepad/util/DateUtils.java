@@ -23,6 +23,10 @@ public class DateUtils {
         return calendar.getTime();
     }
 
+    public static boolean isSameDay(final Date first, final Date second) {
+        return shortFormat(first).equals(shortFormat(second));
+    }
+
     public static String format(final Date date) {
         return format.format(date);
     }
