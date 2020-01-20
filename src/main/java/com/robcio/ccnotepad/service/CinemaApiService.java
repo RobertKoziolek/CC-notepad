@@ -8,10 +8,7 @@ import com.robcio.ccnotepad.model.view.ViewMovie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 @Service
 public class CinemaApiService {
@@ -34,9 +31,9 @@ public class CinemaApiService {
         return viewPreparationService.prepareForView(futureInfo);
     }
 
-    public Set<Date> getDates() {
-        final TreeSet<Date> set = new TreeSet<>(Comparator.comparingLong(Date::getTime));
-        set.addAll(connector.getDays().getDates());
-        return set;
+    public List<Date> getDates() {
+        final LinkedList<Date> list = new LinkedList<>(connector.getDays().getDates());
+        list.sort(Comparator.comparingLong(Date::getTime));
+        return list;
     }
 }
