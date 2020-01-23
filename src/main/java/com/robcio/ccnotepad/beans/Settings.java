@@ -12,11 +12,11 @@ import java.util.TreeMap;
 
 
 @Component
-@Getter
 @Setter
 public class Settings {
 
     private Date selectedDate;
+    @Getter
     private Map<Filter, Boolean> filters;
 
     {
@@ -27,4 +27,11 @@ public class Settings {
         selectedDate = new Date();
     }
 
+    public Date getSelectedDate() {
+        final Date today = new Date();
+        if (selectedDate.getTime() < today.getTime()) {
+            setSelectedDate(today);
+        }
+        return today;
+    }
 }

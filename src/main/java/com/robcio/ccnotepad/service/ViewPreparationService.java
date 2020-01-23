@@ -6,10 +6,7 @@ import com.robcio.ccnotepad.model.view.ViewMovie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,7 +40,15 @@ class ViewPreparationService {
         return movies;
     }
 
-    Set<FuturePoster> prepareForView(final FutureInfo futureInfo) {
-        return futureInfo.getPosters();
+    List<FuturePoster> prepareForView(final FutureInfo futureInfo) {
+        final LinkedList<FuturePoster> list = new LinkedList<>(futureInfo.getPosters());
+        list.sort(Comparator.comparing(FuturePoster::getName));
+        return list;
+    }
+
+    public List<Date> prepareForView(final DaysInfo daysInfo) {
+        final LinkedList<Date> list = new LinkedList<>(daysInfo.getDates());
+        list.sort(Comparator.comparingLong(Date::getTime));
+        return list;
     }
 }

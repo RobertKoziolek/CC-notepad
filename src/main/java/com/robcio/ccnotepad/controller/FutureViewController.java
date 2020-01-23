@@ -7,10 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Date;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/future")
@@ -26,11 +22,5 @@ public class FutureViewController {
     public String getFutureView(final Model model) {
         model.addAttribute("movies", cinemaApiService.getFutureMoviesForView());
         return "futureView";
-    }
-
-    @ResponseBody
-    @GetMapping("/days")
-    public Set<Date> getDays() {
-        return connector.getDays().getDates();
     }
 }

@@ -1,6 +1,7 @@
 package com.robcio.ccnotepad.service;
 
 import com.robcio.ccnotepad.connector.CinemaCityConnector;
+import com.robcio.ccnotepad.model.json.DaysInfo;
 import com.robcio.ccnotepad.model.json.FutureInfo;
 import com.robcio.ccnotepad.model.json.FuturePoster;
 import com.robcio.ccnotepad.model.json.ScheduleInfo;
@@ -8,7 +9,9 @@ import com.robcio.ccnotepad.model.view.ViewMovie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class CinemaApiService {
@@ -26,14 +29,13 @@ public class CinemaApiService {
         return viewPreparationService.prepareForView(scheduleInfo);
     }
 
-    public Set<FuturePoster> getFutureMoviesForView() {
+    public List<FuturePoster> getFutureMoviesForView() {
         final FutureInfo futureInfo = connector.getFuture();
         return viewPreparationService.prepareForView(futureInfo);
     }
 
     public List<Date> getDates() {
-        final LinkedList<Date> list = new LinkedList<>(connector.getDays().getDates());
-        list.sort(Comparator.comparingLong(Date::getTime));
-        return list;
+        final DaysInfo daysInfo = connector.getDays();
+        return viewPreparationService.prepareForView(daysInfo);
     }
 }
