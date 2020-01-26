@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<ul th:fragment="datePills" class="nav nav-pills nav-justify">
+    <div th:each="date, i : ${availableDates}">
+        <form class="form-inline" th:action="@{/setting/date}" th:method="post"
+              th:id="'dateForm' + ${i.index}">
+            <input type="hidden" name="_method" value="PUT"/>
+            <input type="hidden" name="dateString" th:value=" ${date}"/>
+
+
+            <li class="nav-item" th:if="${i.index lt 5}">
+                <a class="nav-link" href="javascript:{}"
+                   th:onclick="'document.getElementById(\'dateForm' + ${i.index} + '\').submit();'"
+                   th:classappend="${selectedDateIndex eq i.index} ? 'active' : ''"
+                   th:text="${#dates.format(date, 'E dd MMM')}">
+                    dd-MM
+                </a>
+            </li>
+
+            <li class="nav-item" th:if="${i.index eq 5 and i.size eq 6}">
+                <a class="nav-link" href="javascript:{}"
+                   th:onclick="'document.getElementById(\'dateForm' + ${i.index} + '\').submit();'"
+                   th:classappend="${selectedDateIndex eq i.index} ? 'active' : ''"
+                   th:text="${#dates.format(date, 'E dd MMM')}">
+                    dd-MM
+                </a>
+            </li>
+        </form>
+    </div>
+    <li th:if="${#lists.size(availableDates) > 6}" class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+           th:classappend="${selectedDateIndex ge 5} ? 'active' : ''">More</a>
+        <div class="dropdown-menu">
+            <div th:each="date, i : ${availableDates}">
+                <form class="form-inline" th:action="@{/setting/date}" th:method="post"
+                      th:id="'dateForm' + ${i.index}">
+                    <input type="hidden" name="_method" value="PUT"/>
+                    <input type="hidden" name="dateString" th:value=" ${date}"/>
+
+                    <a class="dropdown-item" th:if="${i.index ge 5}" href="javascript:{}"
+                       th:onclick="'document.getElementById(\'dateForm' + ${i.index} + '\').submit();'"
+                       th:classappend="${selectedDateIndex eq i.index} ? 'active' : ''"
+                       th:text="${#dates.format(date, 'E dd MMM')}">
+                        dd-MM
+                    </a>
+                </form>
+            </div>
+        </div>
+    </li>
+</ul>
+</html>

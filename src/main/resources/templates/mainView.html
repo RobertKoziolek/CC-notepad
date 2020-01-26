@@ -12,80 +12,18 @@
             src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
-            <a th:replace="navigationModalFragment.html :: navigationButton"></a>
-            <div class="btn-group float-right" role="group">
-                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-                    Filters
-                </button>
-                <div class="dropdown-menu">
-                    <form th:action="@{/setting/filter}" th:method="post" th:each="filterEntry : ${filters}">
-                        <input type="hidden" name="_method" value="PUT"/>
-                        <input type="hidden" name="filter" th:value="${filterEntry.key}"/>
-                        <button type="submit" class="dropdown-item" name="value"
-                                th:text="${filterEntry.key.label}"
-                                th:classappend="${filterEntry.value} ? 'text-success' : 'text-danger'"
-                                th:value=" ${!filterEntry.value}">
-                            Filter
-                        </button>
-                    </form>
-                </div>
-            </div>
-            <ul class="nav nav-pills nav-justify">
-                <div th:each="date, i : ${dates}">
-                    <form class="form-inline" th:action="@{/setting/date}" th:method="post"
-                          th:id="'dateForm' + ${i.index}">
-                        <input type="hidden" name="_method" value="PUT"/>
-                        <input type="hidden" name="dateString" th:value=" ${date}"/>
-
-
-                        <li class="nav-item" th:if="${i.index lt 5}">
-                            <a class="nav-link" href="javascript:{}"
-                               th:onclick="'document.getElementById(\'dateForm' + ${i.index} + '\').submit();'"
-                               th:classappend="${selectedDateIndex eq i.index} ? 'active' : ''"
-                               th:text="${#dates.format(date, 'E dd MMM')}">
-                                dd-MM
-                            </a>
-                        </li>
-
-                        <li class="nav-item" th:if="${i.index eq 5 and i.size eq 6}">
-                            <a class="nav-link" href="javascript:{}"
-                               th:onclick="'document.getElementById(\'dateForm' + ${i.index} + '\').submit();'"
-                               th:classappend="${selectedDateIndex eq i.index} ? 'active' : ''"
-                               th:text="${#dates.format(date, 'E dd MMM')}">
-                                dd-MM
-                            </a>
-                        </li>
-                    </form>
-                </div>
-                <li th:if="${#lists.size(dates) > 6}" class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-                       th:classappend="${selectedDateIndex ge 5} ? 'active' : ''">More</a>
-                    <div class="dropdown-menu">
-                        <div th:each="date, i : ${dates}">
-                            <form class="form-inline" th:action="@{/setting/date}" th:method="post"
-                                  th:id="'dateForm' + ${i.index}">
-                                <input type="hidden" name="_method" value="PUT"/>
-                                <input type="hidden" name="dateString" th:value=" ${date}"/>
-
-                                <a class="dropdown-item" th:if="${i.index ge 5}" href="javascript:{}"
-                                   th:onclick="'document.getElementById(\'dateForm' + ${i.index} + '\').submit();'"
-                                   th:classappend="${selectedDateIndex eq i.index} ? 'active' : ''"
-                                   th:text="${#dates.format(date, 'E dd MMM')}">
-                                    dd-MM
-                                </a>
-                            </form>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-        <div class="alert alert-danger" role="alert" th:if="${#lists.size(movies) == 0}">
+<div class="container">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+        <a th:replace="navigationModalFragment.html :: navigationButton"/>
+        <div th:replace="filterFragment.html :: filterMenu"/>
+        <ul th:replace="dateSelectFragment.html :: datePills"/>
+    </nav>
+    <div class="well">
+        <div class="alert alert-danger" role="alert" th:if="${#lists.size(scheduleMovies) == 0}">
             No screenings for selected date and filters
         </div>
         <div class="row">
-            <div class="col-sm-3 bg-light" th:each="movie : ${movies}">
+            <div class="col-sm-3 bg-light" th:each="movie : ${scheduleMovies}">
                 <span class="text-center h5" th:text="${movie.name}">Title</span>
                 <a href="javascript:{}" data-toggle="modal" th:data-target="'#eventsModal' + ${movie.id}">
                     <img class="img-thumbnail" th:alt="${movie.name}" th:title="${movie.length} + ' min'"
@@ -144,10 +82,10 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-        <div th:replace="navigationModalFragment.html :: navigationModal(current='main')"></div>
     </div>
+</div>
+<div th:replace="navigationModalFragment.html :: navigationModal(current='main')"/>
 </body>
 </html>

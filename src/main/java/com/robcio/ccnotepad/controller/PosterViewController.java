@@ -23,16 +23,21 @@ public class PosterViewController {
 
     @GetMapping
     public String getMainView(final Model model) {
-        model.addAttribute("movies", cinemaApiService.getScheduleForView());
-        model.addAttribute("filters", settings.getFilters());
+        model.addAttribute(AttributeConstant.SCHEDULE_MOVIES, cinemaApiService.getScheduleForView());
+        model.addAttribute(AttributeConstant.FILTER_MAP, settings.getFilters());
         final List<Date> dates = cinemaApiService.getDates();
-        model.addAttribute("selectedDateIndex", getSelectedDateIndex(dates, settings.getSelectedDate()));
-        model.addAttribute("dates", dates);
+        model.addAttribute(AttributeConstant.SELECTED_DATE_INDEX,
+                           getSelectedDateIndex(dates, settings.getSelectedDate()));
+        model.addAttribute(AttributeConstant.AVAILABLE_DATES, dates);
         return "mainView";
     }
 
     //TODO check if it works at late hours in the day
     private int getSelectedDateIndex(final List<Date> dates, final Date selectedDate) {
-        return dates.stream().filter(d -> DateUtils.isSameDay(d, selectedDate)).findFirst().map(dates::indexOf).orElse(-1);
+        return dates.stream()
+                    .filter(d -> DateUtils.isSameDay(d, selectedDate))
+                    .findFirst()
+                    .map(dates::indexOf)
+                    .orElse(-1);
     }
 }

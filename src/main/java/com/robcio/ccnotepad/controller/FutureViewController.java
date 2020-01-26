@@ -20,7 +20,7 @@ public class FutureViewController {
 
     @GetMapping
     public String getFutureView(final Model model) {
-        model.addAttribute("movies", cinemaApiService.getFutureMoviesForView());
+        model.addAttribute(AttributeConstant.FUTURE_MOVIES, cinemaApiService.getFutureMoviesForView());
         return "futureView";
     }
 }

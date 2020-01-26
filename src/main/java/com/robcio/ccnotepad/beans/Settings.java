@@ -1,6 +1,7 @@
 package com.robcio.ccnotepad.beans;
 
 import com.robcio.ccnotepad.enumeration.Filter;
+import com.robcio.ccnotepad.util.DateUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
@@ -29,9 +30,10 @@ public class Settings {
 
     public Date getSelectedDate() {
         final Date today = new Date();
-        if (selectedDate.getTime() < today.getTime()) {
+        final boolean isSameDay = DateUtils.isSameDay(today, selectedDate);
+        if (!isSameDay && selectedDate.getTime() < today.getTime()) {
             setSelectedDate(today);
         }
-        return today;
+        return selectedDate;
     }
 }

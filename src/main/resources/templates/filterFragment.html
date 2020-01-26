@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="filterMenu" class="btn-group float-right" role="group">
+    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+        Filters
+    </button>
+    <div class="dropdown-menu">
+        <form th:action="@{/setting/filter}" th:method="post" th:each="filterEntry : ${filters}">
+            <input type="hidden" name="_method" value="PUT"/>
+            <input type="hidden" name="filter" th:value="${filterEntry.key}"/>
+            <button type="submit" class="dropdown-item" name="value"
+                    th:text="${filterEntry.key.label}"
+                    th:classappend="${filterEntry.value} ? 'text-success' : 'text-danger'"
+                    th:value=" ${!filterEntry.value}">
+                Filter
+            </button>
+        </form>
+    </div>
+</div>
+</html>
