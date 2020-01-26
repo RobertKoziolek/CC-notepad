@@ -38,4 +38,8 @@ public class CinemaApiService {
         final DaysInfo daysInfo = connector.getDays();
         return viewPreparationService.prepareForView(daysInfo);
     }
+
+    public ScheduleInfo getForDate(final Date date) {
+        return connector.getFor(date);
+    }
 }
