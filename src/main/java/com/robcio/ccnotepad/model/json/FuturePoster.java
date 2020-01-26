@@ -20,6 +20,7 @@ public class FuturePoster {
     private String posterLink;
     private String videoLink;
     private String releaseDate;
+    private Boolean isMonitored;
 
     @JsonCreator
     public FuturePoster(@JsonProperty("featureTitle") String name,
@@ -31,8 +32,10 @@ public class FuturePoster {
         this.posterLink = posterLink;
         this.link = link;
         this.releaseDate = releaseDate.substring(0, 10);
-        final Optional<Map<String, String>> first = mediaList.stream().filter(kv -> (kv.containsValue("Video") && kv.containsValue(
-                "trailer"))).findFirst();
+        final Optional<Map<String, String>> first = mediaList.stream()
+                                                             .filter(kv -> (kv.containsValue("Video") && kv.containsValue(
+                                                                     "trailer")))
+                                                             .findFirst();
         first.ifPresent(stringStringMap -> this.videoLink = stringStringMap.get("url"));
     }
 }

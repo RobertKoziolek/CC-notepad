@@ -21,15 +21,37 @@
             No future movies
         </div>
         <div class="row">
-            <div class="col-sm-3 bg-light" th:each="movie : ${futureMovies}">
+            <div class="col-sm-3 bg-light" th:each="movie : ${futureMovies}"
+                 th:classappend="${movie.isMonitored ? 'border border-danger' : ''}">
                 <span class="text-center h5" th:text="${movie.name}">Title</span>
                 <a th:href="${movie.videoLink}" target="_blank">
                     <img class="img-thumbnail" th:alt="${movie.name}" th:src="${movie.posterLink}"
                          onerror="this.onerror=null;this.src='https://www.cinema-city.pl/xmedia/img/10103/film.placeholder.poster.jpg';">
                 </a>
+                <!--                //TODO 3 dots to go to details and start/stop monitoring this movie-->
                 <a target="_blank" th:href="${movie.link}">
                     <span class="text-center small">[details]</span>
                 </a>
+                <form th:if="${movie.isMonitored}" th:action="@{/monitor/remove}" th:method="post"
+                      th:id="'removeMonitorForm' + ${movie.name}">
+                    <input type="hidden" name="_method" value="PUT"/>
+                    <input type="hidden" name="redirect" value="future"/>
+                    <input type="hidden" name="movieName" th:value="${movie.name}"/>
+                    <a class="text-center small" href="javascript:{}"
+                       th:onclick="'document.getElementById(\'removeMonitorForm' + ${movie.name} + '\').submit();'">
+                        Do not monitor
+                    </a>
+                </form>
+                <form th:unless="${movie.isMonitored}" th:action="@{/monitor/add}" th:method="post"
+                      th:id="'addMonitorForm' + ${movie.name}">
+                    <input type="hidden" name="_method" value="PUT"/>
+                    <input type="hidden" name="redirect" value="future"/>
+                    <input type="hidden" name="movieName" th:value="${movie.name}"/>
+                    <a class="text-center small" href="javascript:{}"
+                       th:onclick="'document.getElementById(\'addMonitorForm' + ${movie.name} + '\').submit();'">
+                        Monitor
+                    </a>
+                </form>
                 <span class="text-center small"
                       th:text="${movie.releaseDate}"></span>
             </div>

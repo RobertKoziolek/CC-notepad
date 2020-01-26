@@ -1,6 +1,5 @@
 package com.robcio.ccnotepad.controller;
 
-import com.robcio.ccnotepad.model.entity.MonitoredMovie;
 import com.robcio.ccnotepad.service.MonitoredMovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/monitor")
@@ -23,14 +24,20 @@ public class MonitorViewController {
     }
 
     @PutMapping("/add")
-    public String addMovie(@RequestParam final String movieName) {
-        monitorService.add(new MonitoredMovie(movieName));
+    public String addMovie(@RequestParam final String movieName, @RequestParam final Optional<String> redirect) {
+        monitorService.add(movieName);
+        return "redirect:/" + redirect.orElse("monitor");
+    }
+
+    @PutMapping("/remove/id")
+    public String removeMovie(@RequestParam final Long id) {
+        monitorService.remove(id);
         return "redirect:/monitor";
     }
 
     @PutMapping("/remove")
-    public String removeMovie(@RequestParam final Long id) {
-        monitorService.remove(id);
-        return "redirect:/monitor";
+    public String removeMovie(@RequestParam final String movieName, @RequestParam final Optional<String> redirect) {
+        monitorService.remove(movieName);
+        return "redirect:/" + redirect.orElse("monitor");
     }
 }

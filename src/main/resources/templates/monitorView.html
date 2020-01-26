@@ -32,7 +32,7 @@
         <div class="row">
             <div class="col-sm-3 bg-light" th:each="movie : ${monitoredMovies}">
                 <span class="text-center h5" th:text="${movie.movieName}">Title</span>
-                <form th:action="@{/monitor/remove}" th:method="post">
+                <form th:action="@{/monitor/remove/id}" th:method="post">
                     <input type="hidden" name="_method" value="PUT"/>
                     <input type="hidden" name="id" th:value="${movie.id}"/>
                     <button class="btn btn-danger" type="submit">

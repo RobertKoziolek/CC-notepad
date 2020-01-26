@@ -14,6 +14,8 @@ class ViewPreparationService {
 
     @Autowired
     private SettingService settingService;
+    @Autowired
+    private MonitoredMovieService monitoredMovieService;
 
     Set<ViewMovie> prepareForView(final ScheduleInfo scheduleInfo) {
         final ViewMovieFactory viewMovieFactory = new ViewMovieFactory();
@@ -42,6 +44,7 @@ class ViewPreparationService {
 
     List<FuturePoster> prepareForView(final FutureInfo futureInfo) {
         final LinkedList<FuturePoster> list = new LinkedList<>(futureInfo.getPosters());
+        list.forEach(futurePoster -> futurePoster.setIsMonitored(monitoredMovieService.isMonitored(futurePoster.getName())));
         list.sort(Comparator.comparing(FuturePoster::getName));
         return list;
     }
