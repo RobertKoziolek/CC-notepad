@@ -39,7 +39,6 @@ public class EmailService {
             }
         }
         stringBuilder.append(String.format("\n\nSearched for phrases: %s", phrases.toString()));
-        //TODO email to be configured from app
         sendSimpleMessage(settingService.getEmail(), "Movies available for booking", stringBuilder.toString());
     }
 }

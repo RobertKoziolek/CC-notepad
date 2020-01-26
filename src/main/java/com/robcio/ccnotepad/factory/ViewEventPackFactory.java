@@ -45,7 +45,7 @@ public class ViewEventPackFactory {
 
     private SortedSet<ViewMovieEvent> sortAndMap(final Set<Event> events) {
         return events.stream().map(event -> {
-            return new ViewMovieEvent(DateUtils.shortFormat(event.getEventDateTime()),
+            return new ViewMovieEvent(DateUtils.eventFormat(event.getEventDateTime()),
                                       event.getBookingLink(),
                                       event.getAttributeIds());
         }).collect(Collectors.toCollection(supplier));

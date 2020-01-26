@@ -41,7 +41,4 @@ public class DateUtils {
         return eventFormat.format(date);
     }
 
-    public static String dateEventFomat(final Date date) {
-        return dateEventFomat.format(date);
-    }
 }
