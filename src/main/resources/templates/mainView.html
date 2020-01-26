@@ -14,9 +14,9 @@
 <body>
 <div class="container">
     <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
-        <a th:replace="navigationModalFragment.html :: navigationButton"/>
-        <div th:replace="filterFragment.html :: filterMenu"/>
-        <ul th:replace="dateSelectFragment.html :: datePills"/>
+        <a th:replace="fragment/navigationModalFragment.html :: navigationButton"/>
+        <div th:replace="fragment/filterFragment.html :: filterMenu"/>
+        <ul th:replace="fragment/dateSelectFragment.html :: datePills"/>
     </nav>
     <div class="well">
         <div class="alert alert-danger" role="alert" th:if="${#lists.size(scheduleMovies) == 0}">
@@ -86,6 +86,6 @@
         </div>
     </div>
 </div>
-<div th:replace="navigationModalFragment.html :: navigationModal(current='main')"/>
+<div th:replace="fragment/navigationModalFragment.html :: navigationModal(current='main')"/>
 </body>
 </html>

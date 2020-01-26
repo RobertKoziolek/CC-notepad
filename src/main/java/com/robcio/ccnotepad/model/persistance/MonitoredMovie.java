@@ -1,5 +1,6 @@
 package com.robcio.ccnotepad.model.persistance;
 
+import com.robcio.ccnotepad.enumeration.MonitoredMovieStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,4 +17,6 @@ public class MonitoredMovie {
     @GeneratedValue
     private Long id;
     private String movieName;
+    private MonitoredMovieStatus status;
+    private String filmId;
 }

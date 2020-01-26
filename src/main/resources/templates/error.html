@@ -13,7 +13,9 @@
 </head>
 <body>
 <div class="container">
-    <a th:replace="navigationModalFragment.html :: navigationButton"></a>
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+        <a th:replace="fragment/navigationModalFragment.html :: navigationButton"/>
+    </nav>
     <div class="alert alert-danger" role="alert">
         <table class="table">
             <tr>
@@ -51,6 +53,6 @@
         </div>
     </div>
 </div>
-<div th:replace="navigationModalFragment.html :: navigationModal(current='error')"/>
+<div th:replace="fragment/navigationModalFragment.html :: navigationModal(current='error')"/>
 </body>
 </html>

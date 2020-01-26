@@ -17,7 +17,9 @@
                     <a class="nav-item nav-link" th:href="@{/}"
                        th:classappend="${current == ('main')} ? 'active' : ''">Schedule view</a>
                     <a class="nav-item nav-link" th:href="@{/future}"
-                       th:classappend="${current == ('future')} ? 'active' : ''">Comming movies</a>
+                       th:classappend="${current == ('future')} ? 'active' : ''">Coming movies</a>
+                    <a class="nav-item nav-link" th:href="@{/monitor}"
+                       th:classappend="${current == ('monitor')} ? 'active' : ''">Monitoring</a>
                 </nav>
             </div>
         </div>
