@@ -17,24 +17,28 @@
     <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
         <a th:replace="fragment/navigationModalFragment.html :: navigationButton"/>
     </nav>
-    <div class="well">
-        <form th:action="@{/setting/email}" th:method="post">
-            <input type="hidden" name="_method" value="PUT"/>
+    <form th:action="@{/setting/email}" th:method="post" class="form-horizontal">
+        <input type="hidden" name="_method" value="PUT"/>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button type="submit" class="btn btn-outline-primary">Submit</button>
+            </div>
             <input type="email" class="form-control" name="email" th:placeholder="${email}">
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
+        </div>
+    </form>
+    <form th:action="@{/monitor/add}" th:method="post" class="form-horizontal">
+        <input type="hidden" name="_method" value="PUT"/>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button type="submit" class="btn btn-outline-success">
+                    Add
+                </button>
+            </div>
+            <input type="text" class="form-control" name="movieName"/>
+        </div>
+    </form>
     <div class="well">
-        <form th:action="@{/monitor/add}" th:method="post">
-            <input type="hidden" name="_method" value="PUT"/>
-            <input type="text" name="movieName"/>
-            <button type="submit" class="btn btn-success">
-                Add
-            </button>
-        </form>
-    </div>
-    <div class="well">
-        <div class="alert alert-danger" role="alert" th:if="${#lists.size(monitoredMovies) == 0}">
+        <div class="alert alert-info" role="alert" th:if="${#lists.size(monitoredMovies) == 0}">
             No monitored movies
         </div>
         <div class="row">
@@ -44,7 +48,7 @@
                 <form th:action="@{/monitor/remove/id}" th:method="post">
                     <input type="hidden" name="_method" value="PUT"/>
                     <input type="hidden" name="id" th:value="${movie.id}"/>
-                    <button class="btn btn-danger" type="submit">
+                    <button class="btn btn-secondary btn-block" type="submit">
                         Remove
                     </button>
                 </form>
