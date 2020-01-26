@@ -8,6 +8,8 @@ public class DateUtils {
 
     final static private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     final static private SimpleDateFormat shortFormat = new SimpleDateFormat("dd-MM");
+    final static private SimpleDateFormat dateEventFomat = new SimpleDateFormat("dd-MM H:mm");
+    final static private SimpleDateFormat eventFormat = new SimpleDateFormat("H:mm");
 
     public static Date addDay(final Date date) {
         final Calendar calendar = Calendar.getInstance();
@@ -33,5 +35,13 @@ public class DateUtils {
 
     public static String shortFormat(final Date date) {
         return shortFormat.format(date);
+    }
+
+    public static String eventFormat(final Date date) {
+        return eventFormat.format(date);
+    }
+
+    public static String dateEventFomat(final Date date) {
+        return dateEventFomat.format(date);
     }
 }

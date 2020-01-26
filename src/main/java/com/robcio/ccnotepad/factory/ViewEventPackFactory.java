@@ -4,6 +4,7 @@ import com.robcio.ccnotepad.enumeration.PackConfig;
 import com.robcio.ccnotepad.model.json.Event;
 import com.robcio.ccnotepad.model.view.ViewEventPack;
 import com.robcio.ccnotepad.model.view.ViewMovieEvent;
+import com.robcio.ccnotepad.util.DateUtils;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -43,11 +44,8 @@ public class ViewEventPackFactory {
     }
 
     private SortedSet<ViewMovieEvent> sortAndMap(final Set<Event> events) {
-        return events.stream().peek(event -> {
-            final String time = event.getEventDateTime();
-            event.setEventDateTime(time.substring(11, 16));
-        }).map(event -> {
-            return new ViewMovieEvent(event.getEventDateTime(),
+        return events.stream().map(event -> {
+            return new ViewMovieEvent(DateUtils.shortFormat(event.getEventDateTime()),
                                       event.getBookingLink(),
                                       event.getAttributeIds());
         }).collect(Collectors.toCollection(supplier));

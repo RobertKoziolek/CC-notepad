@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Date;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -17,7 +18,7 @@ public class Event {
     private String filmId;
     private String cinemaId;
     private String businessDay;
-    private String eventDateTime;
+    private Date eventDateTime;
     private Set<String> attributeIds;
     private String bookingLink;
     private Boolean soldOut;
