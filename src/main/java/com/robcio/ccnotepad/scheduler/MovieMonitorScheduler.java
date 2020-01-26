@@ -1,6 +1,6 @@
 package com.robcio.ccnotepad.scheduler;
 
-import com.robcio.ccnotepad.model.persistance.MonitoredMovie;
+import com.robcio.ccnotepad.model.entity.MonitoredMovie;
 import com.robcio.ccnotepad.service.CinemaApiService;
 import com.robcio.ccnotepad.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -17,13 +17,28 @@
         <a th:replace="fragment/navigationModalFragment.html :: navigationButton"/>
     </nav>
     <div class="well">
+        <form th:action="@{/monitor/add}" th:method="post">
+            <input type="hidden" name="_method" value="PUT"/>
+            <input type="text" name="movieName"/>
+            <button type="submit" class="btn btn-success">
+                Add
+            </button>
+        </form>
+    </div>
+    <div class="well">
         <div class="alert alert-danger" role="alert" th:if="${#lists.size(monitoredMovies) == 0}">
             No monitored movies
         </div>
         <div class="row">
             <div class="col-sm-3 bg-light" th:each="movie : ${monitoredMovies}">
-                <span class="text-center h5" th:text="${movie}">Title</span>
-
+                <span class="text-center h5" th:text="${movie.movieName}">Title</span>
+                <form th:action="@{/monitor/remove}" th:method="post">
+                    <input type="hidden" name="_method" value="PUT"/>
+                    <input type="hidden" name="id" th:value="${movie.id}"/>
+                    <button class="btn btn-danger" type="submit">
+                        Remove
+                    </button>
+                </form>
             </div>
         </div>
     </div>

@@ -1,21 +1,36 @@
 package com.robcio.ccnotepad.controller;
 
-import com.robcio.ccnotepad.service.MonitorService;
+import com.robcio.ccnotepad.model.entity.MonitoredMovie;
+import com.robcio.ccnotepad.service.MonitoredMovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/monitor")
 public class MonitorViewController {
     @Autowired
-    private MonitorService monitorService;
+    private MonitoredMovieService monitorService;
 
     @GetMapping
     public String getMonitorView(final Model model) {
         model.addAttribute(AttributeConstant.MONITOR_MOVIES, monitorService.getMovies());
         return "monitorView";
+    }
+
+    @PutMapping("/add")
+    public String addMovie(@RequestParam final String movieName) {
+        monitorService.add(new MonitoredMovie(movieName));
+        return "redirect:/monitor";
+    }
+
+    @PutMapping("/remove")
+    public String removeMovie(@RequestParam final Long id) {
+        monitorService.remove(id);
+        return "redirect:/monitor";
     }
 }
