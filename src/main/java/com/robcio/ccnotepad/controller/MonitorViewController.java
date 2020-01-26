@@ -1,6 +1,7 @@
 package com.robcio.ccnotepad.controller;
 
 import com.robcio.ccnotepad.service.MonitoredMovieService;
+import com.robcio.ccnotepad.service.SettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +17,13 @@ import java.util.Optional;
 public class MonitorViewController {
     @Autowired
     private MonitoredMovieService monitorService;
+    @Autowired
+    private SettingService settingService;
 
     @GetMapping
     public String getMonitorView(final Model model) {
         model.addAttribute(AttributeConstant.MONITOR_MOVIES, monitorService.getMovies());
+        model.addAttribute(AttributeConstant.EMAIL, settingService.getEmail());
         return "monitorView";
     }
 

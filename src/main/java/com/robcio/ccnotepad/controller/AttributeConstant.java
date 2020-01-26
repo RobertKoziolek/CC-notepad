@@ -11,5 +11,6 @@ public class AttributeConstant {
     public final static String MONITOR_MOVIES = "monitoredMovies";
     public final static String SELECTED_DATE_INDEX = "selectedDateIndex";
     public final static String AVAILABLE_DATES = "availableDates";
+    public final static String EMAIL = "email";
 
 }

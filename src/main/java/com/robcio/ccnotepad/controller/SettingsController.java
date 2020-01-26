@@ -39,4 +39,10 @@ public class SettingsController {
         return "redirect:/";
     }
 
+    @PutMapping("/email")
+    public String setFilter(@RequestParam final String email) {
+        settingService.setEmail(email);
+        return "redirect:/monitor";
+    }
+
 }

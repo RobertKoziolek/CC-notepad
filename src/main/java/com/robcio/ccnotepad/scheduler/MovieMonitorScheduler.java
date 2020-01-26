@@ -9,6 +9,7 @@ import com.robcio.ccnotepad.service.CinemaApiService;
 import com.robcio.ccnotepad.service.EmailService;
 import com.robcio.ccnotepad.service.MonitoredMovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -24,10 +25,6 @@ public class MovieMonitorScheduler {
     private MonitoredMovieService monitoredMovieService;
     final Map<String, SortedSet<Date>> map = new HashMap<>();
 
-    //TODO take care of expired movies
-//    @Scheduled(fixedRate = 12 * 60 * 60 * 1000)
-//    @Scheduled(fixedRate = 30 * 1000)
-
     private void addToMap(final String movieName, final Collection<Date> eventDates) {
         if (map.containsKey(movieName)) {
             map.get(movieName).addAll(eventDates);
@@ -38,6 +35,8 @@ public class MovieMonitorScheduler {
         }
     }
 
+    //TODO take care of expired movies
+    @Scheduled(fixedRate = 12 * 60 * 60 * 1000)
     public void checkMovies() {
         final Set<MonitoredMovie> monitoredMovieSet = monitoredMovieService.getMovies()
                                                                            .stream()
@@ -57,10 +56,10 @@ public class MovieMonitorScheduler {
                                                                                                   .toLowerCase()))
                                                                       .findAny();
                 if (any.isPresent()) {
-//                    final MonitoredMovie monitoredMovie = any.get();
-//                    monitoredMovie.setFilmId(movie.getId());
-//                    monitoredMovie.setStatus(MonitoredMovieStatus.FOUND);
-//                    monitoredMovieService.save(monitoredMovie);//TODO has to remember it found it
+                    final MonitoredMovie monitoredMovie = any.get();
+                    monitoredMovie.setFilmId(movie.getId());
+                    monitoredMovie.setStatus(MonitoredMovieStatus.FOUND);
+                    monitoredMovieService.save(monitoredMovie);
                     addToMap(movie.getName(),
                              scheduleInfo.getEvents()
                                          .stream()

@@ -18,6 +18,13 @@
         <a th:replace="fragment/navigationModalFragment.html :: navigationButton"/>
     </nav>
     <div class="well">
+        <form th:action="@{/setting/email}" th:method="post">
+            <input type="hidden" name="_method" value="PUT"/>
+            <input type="email" class="form-control" name="email" th:placeholder="${email}">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <div class="well">
         <form th:action="@{/monitor/add}" th:method="post">
             <input type="hidden" name="_method" value="PUT"/>
             <input type="text" name="movieName"/>
@@ -33,6 +40,7 @@
         <div class="row">
             <div class="col-sm-3 bg-light" th:each="movie : ${monitoredMovies}">
                 <span class="text-center h5" th:text="${movie.movieName}">Title</span>
+                <span class="text-center h5" th:if="${movie.filmId != null}"> (found)</span>
                 <form th:action="@{/monitor/remove/id}" th:method="post">
                     <input type="hidden" name="_method" value="PUT"/>
                     <input type="hidden" name="id" th:value="${movie.id}"/>

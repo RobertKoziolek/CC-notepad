@@ -34,4 +34,13 @@ public class SettingService {
     public Map<Filter, Boolean> getFilters() {
         return settings.getFilters();
     }
+
+    public String getEmail() {
+        return settings.getEmail();
+    }
+
+    public void setEmail(final String email) {
+        settings.setEmail(email);
+    }
+
 }

@@ -38,4 +38,8 @@ public class MonitoredMovieService {
     public boolean isMonitored(final String name) {
         return movieRepository.existsByMovieName(name);
     }
+
+    public void save(final MonitoredMovie monitoredMovie) {
+        movieRepository.save(monitoredMovie);
+    }
 }

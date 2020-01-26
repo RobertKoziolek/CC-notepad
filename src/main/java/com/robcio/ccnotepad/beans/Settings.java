@@ -13,14 +13,18 @@ import java.util.TreeMap;
 
 
 @Component
-@Setter
 public class Settings {
 
+    @Getter
+    @Setter
+    private String email;
+    @Setter
     private Date selectedDate;
     @Getter
     private Map<Filter, Boolean> filters;
 
     {
+        email = "name@example.com";
         filters = new TreeMap<>(Comparator.comparing(Filter::getLabel));
         for (final Filter filter : Filter.values()) {
             filters.put(filter, Boolean.TRUE);

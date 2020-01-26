@@ -12,7 +12,9 @@ import java.util.stream.Collectors;
 @Service
 public class EmailService {
     @Autowired
-    public JavaMailSender emailSender;
+    private SettingService settingService;
+    @Autowired
+    private JavaMailSender emailSender;
 
     private void sendSimpleMessage(final String to, final String subject, final String text) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -38,6 +40,6 @@ public class EmailService {
         }
         stringBuilder.append(String.format("\n\nSearched for phrases: %s", phrases.toString()));
         //TODO email to be configured from app
-        sendSimpleMessage("", "Movies available for booking", stringBuilder.toString());
+        sendSimpleMessage(settingService.getEmail(), "Movies available for booking", stringBuilder.toString());
     }
 }
